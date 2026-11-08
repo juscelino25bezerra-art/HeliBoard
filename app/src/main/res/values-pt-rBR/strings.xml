@@ -246,6 +246,7 @@
     <string name="user_dict_add_word_button">Adicionar palavra</string>
     <string name="theme_style">Estilo</string>
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Arredondado</string>
+    <string name="style_name_iOS" tools:keep="@string/style_name_iOS">iOS</string>
     <string name="theme_colors">Cores</string>
     <string name="theme_colors_night">Cores (noite)</string>
     <string name="theme_navbar">Cor da barra de navegação</string>
@@ -265,6 +266,8 @@
     <string name="theme_name_pink" tools:keep="@string/theme_name_pink">Rosa</string>
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Areia</string>
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violeta</string>
+    <string name="theme_name_ios_light" tools:keep="@string/theme_name_ios_light">iOS claro</string>
+    <string name="theme_name_ios_dark" tools:keep="@string/theme_name_ios_dark">iOS escuro</string>
     <string name="theme_name_user" tools:keep="@string/theme_name_user">Configurado pelo usuário</string>
     <string name="auto_user_color">Escolher cor automaticamente</string>
     <string name="main_colors">Mostrar somente cores principais</string>

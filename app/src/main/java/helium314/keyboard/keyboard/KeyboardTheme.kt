@@ -47,6 +47,7 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
         const val STYLE_MATERIAL = "Material"
         const val STYLE_HOLO = "Holo"
         const val STYLE_ROUNDED = "Rounded"
+        const val STYLE_IOS = "iOS"
 
         // new themes that are just colors
         const val THEME_LIGHT = "light"
@@ -65,6 +66,8 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
         const val THEME_PINK = "pink"
         const val THEME_SAND = "sand"
         const val THEME_VIOLETTE = "violette"
+        const val THEME_IOS_LIGHT = "ios_light"
+        const val THEME_IOS_DARK = "ios_dark"
         fun getAvailableDefaultColors(prefs: SharedPreferences, isNight: Boolean) = listOfNotNull(
             if (!isNight) THEME_LIGHT else null, THEME_DARK,
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) THEME_DYNAMIC else null,
@@ -80,9 +83,11 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
             if (!isNight) THEME_PINK else null,
             THEME_OCEAN,
             if (!isNight) THEME_SAND else null,
-            THEME_VIOLETTE
+            THEME_VIOLETTE,
+            if (!isNight) THEME_IOS_LIGHT else null,
+            THEME_IOS_DARK
         )
-        val STYLES = arrayOf(STYLE_MATERIAL, STYLE_HOLO, STYLE_ROUNDED)
+        val STYLES = arrayOf(STYLE_MATERIAL, STYLE_HOLO, STYLE_ROUNDED, STYLE_IOS)
 
         // These should be aligned with Keyboard.themeId and Keyboard.Case.keyboardTheme
         // attributes' values in attrs.xml.
@@ -91,6 +96,7 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
         private const val THEME_ID_LXX_BASE_BORDER = 2
         private const val THEME_ID_ROUNDED_BASE = 3
         private const val THEME_ID_ROUNDED_BASE_BORDER = 4
+        private const val THEME_ID_IOS = 5
         private const val DEFAULT_THEME_ID = THEME_ID_LXX_BASE
 
         private val KEYBOARD_THEMES = arrayOf(
@@ -98,7 +104,8 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
             KeyboardTheme(THEME_ID_LXX_BASE, R.style.KeyboardTheme_LXX_Base),
             KeyboardTheme(THEME_ID_LXX_BASE_BORDER, R.style.KeyboardTheme_LXX_Base_Border),
             KeyboardTheme(THEME_ID_ROUNDED_BASE, R.style.KeyboardTheme_Rounded_Base),
-            KeyboardTheme(THEME_ID_ROUNDED_BASE_BORDER, R.style.KeyboardTheme_Rounded_Base_Border)
+            KeyboardTheme(THEME_ID_ROUNDED_BASE_BORDER, R.style.KeyboardTheme_Rounded_Base_Border),
+            KeyboardTheme(THEME_ID_IOS, R.style.KeyboardTheme_iOS)
         )
 
         // named colors, with names from old settings
@@ -121,6 +128,7 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
             val matchingId = when (style) {
                 STYLE_HOLO -> THEME_ID_HOLO_BASE
                 STYLE_ROUNDED -> if (borders) THEME_ID_ROUNDED_BASE_BORDER else THEME_ID_ROUNDED_BASE
+                STYLE_IOS -> THEME_ID_IOS // iOS style always draws key backgrounds
                 else -> if (borders) THEME_ID_LXX_BASE_BORDER else THEME_ID_LXX_BASE
             }
             return KEYBOARD_THEMES.firstOrNull { it.themeId == matchingId } ?: KEYBOARD_THEMES[DEFAULT_THEME_ID]
@@ -145,7 +153,8 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
         }
 
         private fun getThemeColors(themeName: String, themeStyle: String, context: Context, prefs: SharedPreferences, isNight: Boolean): Colors {
-            val hasBorders = prefs.getBoolean(Settings.PREF_THEME_KEY_BORDERS, Defaults.PREF_THEME_KEY_BORDERS)
+            val hasBorders = themeStyle == STYLE_IOS
+                    || prefs.getBoolean(Settings.PREF_THEME_KEY_BORDERS, Defaults.PREF_THEME_KEY_BORDERS)
             val backgroundImage = Settings.readUserBackgroundImage(context, isNight)
             return when (themeName) {
                 THEME_DYNAMIC -> {
@@ -334,6 +343,35 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
                     Color.rgb(150, 150, 216),
                     Color.WHITE,
                     Color.WHITE,
+                    keyboardBackground = backgroundImage
+                )
+                // iOS-like colors: white letter keys on light gray, darker gray functional keys
+                THEME_IOS_LIGHT -> DefaultColors(
+                    themeStyle,
+                    hasBorders,
+                    "#007AFF".toColorInt(), // accent (return key, selections)
+                    "#D1D4DA".toColorInt(), // background
+                    Color.WHITE, // keys
+                    "#ABB0BA".toColorInt(), // functional keys
+                    Color.WHITE, // spacebar
+                    Color.BLACK, // key text
+                    "#6B6B70".toColorInt(), // hint text
+                    "#1C1C1E".toColorInt(), // suggestion text
+                    "#8E8E93".toColorInt(), // spacebar text
+                    keyboardBackground = backgroundImage
+                )
+                THEME_IOS_DARK -> DefaultColors(
+                    themeStyle,
+                    hasBorders,
+                    "#0A84FF".toColorInt(),
+                    "#2B2B2E".toColorInt(),
+                    "#6C6C70".toColorInt(),
+                    "#46464A".toColorInt(),
+                    "#6C6C70".toColorInt(),
+                    Color.WHITE,
+                    "#E0E0E5".toColorInt(),
+                    "#F2F2F7".toColorInt(),
+                    "#D1D1D6".toColorInt(),
                     keyboardBackground = backgroundImage
                 )
                 else -> { // user-defined theme

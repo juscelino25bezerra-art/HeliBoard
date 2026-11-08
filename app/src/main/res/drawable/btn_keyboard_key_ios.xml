@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- SPDX-License-Identifier: GPL-3.0-only -->
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Empty background keys. -->
+    <item android:state_empty="true" android:state_pressed="true"
+          android:drawable="@drawable/btn_keyboard_key_pressed_ios" />
+    <item android:state_empty="true"
+          android:drawable="@android:color/transparent" />
+    <!-- All other keys (normal, functional, action, toggle). -->
+    <item android:state_pressed="true"
+          android:drawable="@drawable/btn_keyboard_key_pressed_ios" />
+    <item android:drawable="@drawable/btn_keyboard_key_normal_ios" />
+</selector>

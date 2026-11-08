@@ -713,6 +713,7 @@ New dictionary:
     <string name="icon_style">Icon style</string>
     <!-- Style name for Rounded style -->
     <string name="style_name_Rounded" tools:keep="@string/style_name_Rounded">Rounded</string>
+    <string name="style_name_iOS" tools:keep="@string/style_name_iOS">iOS</string>
     <!-- Option for choosing colors -->
     <string name="theme_colors">Colors</string>
     <!-- Option for choosing colors for night mode -->
@@ -759,6 +760,8 @@ New dictionary:
     <string name="theme_name_sand" tools:keep="@string/theme_name_sand">Sand</string>
     <!-- Theme name for violette theme -->
     <string name="theme_name_violette" tools:keep="@string/theme_name_violette">Violette</string>
+    <string name="theme_name_ios_light" tools:keep="@string/theme_name_ios_light">iOS Light</string>
+    <string name="theme_name_ios_dark" tools:keep="@string/theme_name_ios_dark">iOS Dark</string>
     <!-- Theme name for user-defined theme -->
     <string name="theme_name_user" tools:keep="@string/theme_name_user">User-Defined</string>
     <!-- Theme name for user-defined theme night mode theme -->

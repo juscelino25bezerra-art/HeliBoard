@@ -196,6 +196,7 @@
             <enum name="LXXBaseBorder" value="2" />
             <enum name="RoundedBase" value="3" />
             <enum name="RoundedBaseBorder" value="4" />
+            <enum name="iOS" value="5" />
         </attr>
         <!-- Touch position correction -->
         <attr name="touchPositionCorrectionData" format="reference" />
@@ -349,6 +350,7 @@
             <enum name="LXXBaseBorder" value="2" />
             <enum name="RoundedBase" value="3" />
             <enum name="RoundedBaseBorder" value="4" />
+            <enum name="iOS" value="5" />
         </attr>
         <attr name="navigateNext" format="boolean" />
         <attr name="navigatePrevious" format="boolean" />

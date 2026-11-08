@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    iOS-like keyboard style: rectangular keys with small corner radius and a thin bottom shadow,
+    functional keys use the same shape (not pills). Based on Rounded_Base_Border.
+    SPDX-License-Identifier: GPL-3.0-only
+-->
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <style name="KeyboardTheme.iOS" parent="KeyboardTheme.Rounded_Base_Border">
+        <item name="keyboardStyle">@style/Keyboard.iOS</item>
+        <item name="keyboardViewStyle">@style/KeyboardView.iOS</item>
+        <item name="mainKeyboardViewStyle">@style/MainKeyboardView.iOS</item>
+        <item name="emojiPalettesViewStyle">@style/EmojiPalettesView.iOS</item>
+        <item name="clipboardHistoryViewStyle">@style/ClipboardHistoryView.iOS</item>
+        <item name="popupKeysKeyboardViewStyle">@style/PopupKeysKeyboardView.iOS</item>
+    </style>
+
+    <style name="Keyboard.iOS" parent="Keyboard">
+        <!-- This should be aligned with KeyboardTheme.THEME_ID_* -->
+        <item name="themeId">iOS</item>
+    </style>
+
+    <style name="KeyboardView.iOS" parent="KeyboardView.Rounded_Base_Border">
+        <item name="keyBackground">@drawable/btn_keyboard_key_ios</item>
+        <item name="functionalKeyBackground">@drawable/btn_keyboard_key_ios</item>
+        <item name="spacebarBackground">@drawable/btn_keyboard_key_ios</item>
+    </style>
+
+    <style name="MainKeyboardView.iOS" parent="MainKeyboardView.Rounded_Base_Border">
+        <item name="keyBackground">@drawable/btn_keyboard_key_ios</item>
+        <item name="functionalKeyBackground">@drawable/btn_keyboard_key_ios</item>
+        <item name="spacebarBackground">@drawable/btn_keyboard_key_ios</item>
+    </style>
+
+    <style name="EmojiPalettesView.iOS" parent="EmojiPalettesView.Rounded_Base_Border">
+        <item name="keyBackground">@drawable/btn_keyboard_key_ios</item>
+        <item name="functionalKeyBackground">@drawable/btn_keyboard_key_ios</item>
+        <item name="spacebarBackground">@drawable/btn_keyboard_key_ios</item>
+    </style>
+
+    <style name="ClipboardHistoryView.iOS" parent="ClipboardHistoryView.Rounded_Base_Border">
+        <item name="keyBackground">@drawable/btn_keyboard_key_ios</item>
+        <item name="functionalKeyBackground">@drawable/btn_keyboard_key_ios</item>
+    </style>
+
+    <style name="PopupKeysKeyboardView.iOS" parent="PopupKeysKeyboardView.Rounded_Base_Border">
+        <item name="android:background">@drawable/keyboard_popup_panel_background_ios</item>
+        <item name="keyBackground">@drawable/btn_keyboard_key_popup_ios</item>
+    </style>
+</resources>
