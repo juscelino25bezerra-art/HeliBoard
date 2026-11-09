@@ -75,6 +75,7 @@ android {
     buildFeatures {
         viewBinding = true
         buildConfig = true
+        aidl = true // interface do serviço do Offline Translator (app/src/main/aidl)
         compose = true
     }
 

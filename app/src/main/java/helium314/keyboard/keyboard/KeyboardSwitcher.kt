@@ -40,6 +40,7 @@ import helium314.keyboard.latin.RichInputMethodSubtype
 import helium314.keyboard.latin.common.InsetsOutlineProvider
 import helium314.keyboard.latin.databinding.InputViewBinding
 import helium314.keyboard.latin.settings.Settings
+import helium314.keyboard.latin.translator.TranslatorController
 import helium314.keyboard.latin.settings.SettingsValues
 import helium314.keyboard.latin.settings.setFloatingKeyboardEnabled
 import helium314.keyboard.latin.utils.CapsModeUtils
@@ -226,7 +227,10 @@ class KeyboardSwitcher private constructor() {
         }
         val stripContainer = inputView.stripContainer
         val stripHeight = if (stripContainer.isShown) stripContainer.height else 0
-        var visibleTopY = inputHeight - (if (visibleKeyboardView.isShown) visibleKeyboardView.height else 0) - stripHeight
+        // barra do tradutor, acima das sugestões, quando o modo tradutor está aberto
+        val translatorBar = inputView.root.findViewWithTag<View>(TranslatorController.BAR_TAG)
+        val translatorHeight = if (translatorBar?.isShown == true) translatorBar.height else 0
+        var visibleTopY = inputHeight - (if (visibleKeyboardView.isShown) visibleKeyboardView.height else 0) - stripHeight - translatorHeight
         if (Settings.getValues().mIsFloatingKeyboard)
             visibleTopY = themeContext.resources.displayMetrics.heightPixels
 
