@@ -128,12 +128,12 @@ class TranslatorController(private val ime: LatinIME) {
         field?.visibility = View.VISIBLE
         showStatus(null)
         client.connect()
-        ime.switchInputTarget {
+        ime.switchInputTarget(Runnable {
             field?.text?.clear()
             internalConnection = field?.onCreateInputConnection(EditorInfo())
             lastTranslatedSource = null
             isActive = internalConnection != null
-        }
+        })
         if (!isActive) showStatus(ime.getString(R.string.translator_not_connected))
         updateToolbar()
     }
@@ -143,13 +143,13 @@ class TranslatorController(private val ime: LatinIME) {
         requestId++
         sendAfterTranslation = false
         val wasActive = isActive
-        val leave = {
+        val leave = Runnable {
             isActive = false
             internalConnection = null
             ime.appInputConnection?.finishComposingText()
             field?.text?.clear()
         }
-        if (wasActive && restartInput) ime.switchInputTarget(leave) else leave()
+        if (wasActive && restartInput) ime.switchInputTarget(leave) else leave.run()
         bar?.visibility = View.GONE
         showStatus(null)
         updateToolbar()
@@ -208,10 +208,10 @@ class TranslatorController(private val ime: LatinIME) {
         appConnection.performEditorAction(
             if (actionId == InputTypeUtils.IME_ACTION_CUSTOM_LABEL) editorInfo.actionId else actionId
         )
-        ime.switchInputTarget {
+        ime.switchInputTarget(Runnable {
             field?.text?.clear()
             lastTranslatedSource = null
-        }
+        })
     }
 
     private fun currentText() = field?.text?.toString().orEmpty()
