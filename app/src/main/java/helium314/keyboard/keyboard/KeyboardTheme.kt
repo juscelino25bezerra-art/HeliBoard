@@ -88,6 +88,14 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
             THEME_IOS_DARK
         )
         val STYLES = arrayOf(STYLE_MATERIAL, STYLE_HOLO, STYLE_ROUNDED, STYLE_IOS)
+        /** Icon styles: iOS style uses the Rounded icons, so it's not offered separately */
+        val ICON_STYLES = arrayOf(STYLE_MATERIAL, STYLE_HOLO, STYLE_ROUNDED)
+
+        /** Whether keys are drawn with backgrounds. iOS style always has them, independent of the setting. */
+        @JvmStatic
+        fun hasKeyBorders(prefs: SharedPreferences): Boolean =
+            prefs.getString(Settings.PREF_THEME_STYLE, Defaults.PREF_THEME_STYLE) == STYLE_IOS
+                    || prefs.getBoolean(Settings.PREF_THEME_KEY_BORDERS, Defaults.PREF_THEME_KEY_BORDERS)
 
         // These should be aligned with Keyboard.themeId and Keyboard.Case.keyboardTheme
         // attributes' values in attrs.xml.
@@ -124,7 +132,7 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
         fun getKeyboardTheme(context: Context): KeyboardTheme {
             val prefs = context.prefs()
             val style = prefs.getString(Settings.PREF_THEME_STYLE, Defaults.PREF_THEME_STYLE)
-            val borders = prefs.getBoolean(Settings.PREF_THEME_KEY_BORDERS, Defaults.PREF_THEME_KEY_BORDERS)
+            val borders = hasKeyBorders(prefs)
             val matchingId = when (style) {
                 STYLE_HOLO -> THEME_ID_HOLO_BASE
                 STYLE_ROUNDED -> if (borders) THEME_ID_ROUNDED_BASE_BORDER else THEME_ID_ROUNDED_BASE
@@ -153,8 +161,7 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
         }
 
         private fun getThemeColors(themeName: String, themeStyle: String, context: Context, prefs: SharedPreferences, isNight: Boolean): Colors {
-            val hasBorders = themeStyle == STYLE_IOS
-                    || prefs.getBoolean(Settings.PREF_THEME_KEY_BORDERS, Defaults.PREF_THEME_KEY_BORDERS)
+            val hasBorders = themeStyle == STYLE_IOS || hasKeyBorders(prefs)
             val backgroundImage = Settings.readUserBackgroundImage(context, isNight)
             return when (themeName) {
                 THEME_DYNAMIC -> {
@@ -530,7 +537,7 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
                     val background = determineUserColor(colors, context, COLOR_BACKGROUND, isNight)
                     return if (isBrightColor(background)) {
                         // but if key borders are enabled, we still want reasonable contrast
-                        if (!context.prefs().getBoolean(Settings.PREF_THEME_KEY_BORDERS, Defaults.PREF_THEME_KEY_BORDERS)
+                        if (!hasKeyBorders(context.prefs())
                             || isGoodContrast(Color.BLACK, determineUserColor(colors, context, COLOR_KEYS, isNight))
                         ) Color.BLACK
                         else Color.GRAY

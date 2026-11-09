@@ -12,6 +12,7 @@ import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import androidx.core.view.WindowCompat
 import helium314.keyboard.latin.common.ColorType
 import helium314.keyboard.latin.settings.Settings
 import java.lang.ref.WeakReference
@@ -37,6 +38,8 @@ object NavBarBackground {
         active = values.mCustomNavBarColor && !values.mIsFloatingKeyboard
         color = values.mColors.get(ColorType.NAVIGATION_BAR)
         inputRootRef = WeakReference(inputRoot)
+        if (active) // dark navigation buttons on bright keyboard colors (the old SYSTEM_UI_FLAG may be ignored)
+            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars = isBrightColor(color)
         val decor = window.decorView
         if (listenedDecorRef.get() !== decor) {
             listenedDecorRef = WeakReference(decor)
