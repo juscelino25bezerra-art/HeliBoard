@@ -367,18 +367,19 @@ private constructor(val themeId: Int, @JvmField val mStyleId: Int) {
                     "#8E8E93".toColorInt(), // spacebar text
                     keyboardBackground = backgroundImage
                 )
+                // iOS escuro com a paleta grafite do Sonivell/YewPlay: rubi no lugar do azul
                 THEME_IOS_DARK -> DefaultColors(
                     themeStyle,
                     hasBorders,
-                    "#0A84FF".toColorInt(),
-                    "#2B2B2E".toColorInt(),
-                    "#6C6C70".toColorInt(),
-                    "#46464A".toColorInt(),
-                    "#6C6C70".toColorInt(),
-                    Color.WHITE,
-                    "#E0E0E5".toColorInt(),
-                    "#F2F2F7".toColorInt(),
-                    "#D1D1D6".toColorInt(),
+                    "#E0364F".toColorInt(), // accent: rubi
+                    "#0E0F11".toColorInt(), // background: grafite
+                    "#2A2D33".toColorInt(), // keys
+                    "#1E2125".toColorInt(), // functional keys
+                    "#2A2D33".toColorInt(), // spacebar
+                    "#F2F3F5".toColorInt(), // key text
+                    "#9BA1A9".toColorInt(), // hint text
+                    "#F2F3F5".toColorInt(), // suggestion text
+                    "#9BA1A9".toColorInt(), // spacebar text
                     keyboardBackground = backgroundImage
                 )
                 else -> { // user-defined theme
