@@ -1556,7 +1556,7 @@ public class LatinIME extends InputMethodService implements
     // todo: see also the comment for clearNavigationBarColor
     private void setNavigationBarColor() {
         // API 35+: setNavigationBarColor has no effect, the keyboard draws the background itself
-        NavBarBackground.INSTANCE.apply(getWindow().getWindow(), mKeyboardSwitcher.getMainKeyboardFrameView());
+        NavBarBackground.INSTANCE.apply(getWindow().getWindow(), mKeyboardSwitcher.getInputViewRoot());
         final SettingsValues settingsValues = mSettings.getCurrent();
         if (!settingsValues.mCustomNavBarColor)
             return;
