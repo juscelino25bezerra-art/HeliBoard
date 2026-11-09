@@ -96,6 +96,43 @@ class KeyboardIconsSet private constructor() {
             "start_onehanded_mode_key" to ToolbarKey.ONE_HANDED.name.lowercase(Locale.US),
         )
 
+        // toolbar icons from Phosphor Icons (MIT), shared by all styles
+        private fun phosphorToolbarIcon(key: ToolbarKey) = when (key) {
+            ToolbarKey.VOICE -> R.drawable.ic_phosphor_voice
+            ToolbarKey.CLIPBOARD -> R.drawable.ic_phosphor_clipboard
+            ToolbarKey.NUMPAD -> R.drawable.ic_phosphor_numpad
+            ToolbarKey.DPAD -> R.drawable.ic_phosphor_dpad
+            ToolbarKey.UNDO -> R.drawable.ic_phosphor_undo
+            ToolbarKey.REDO -> R.drawable.ic_phosphor_redo
+            ToolbarKey.SETTINGS -> R.drawable.ic_phosphor_settings
+            ToolbarKey.SELECT_ALL -> R.drawable.ic_phosphor_select_all
+            ToolbarKey.SELECT_WORD -> R.drawable.ic_phosphor_select_word
+            ToolbarKey.COPY -> R.drawable.ic_phosphor_copy
+            ToolbarKey.CUT -> R.drawable.ic_phosphor_cut
+            ToolbarKey.PASTE -> R.drawable.ic_phosphor_paste
+            ToolbarKey.ONE_HANDED -> R.drawable.ic_phosphor_one_handed
+            ToolbarKey.FLOATING -> R.drawable.ic_phosphor_floating
+            ToolbarKey.INCOGNITO -> R.drawable.ic_phosphor_incognito
+            ToolbarKey.AUTOCORRECT -> R.drawable.ic_phosphor_autocorrect
+            ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.ic_phosphor_clear_clipboard
+            ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_phosphor_close_history
+            ToolbarKey.EMOJI -> R.drawable.ic_phosphor_emoji
+            ToolbarKey.LEFT -> R.drawable.ic_phosphor_left
+            ToolbarKey.RIGHT -> R.drawable.ic_phosphor_right
+            ToolbarKey.UP -> R.drawable.ic_phosphor_up
+            ToolbarKey.DOWN -> R.drawable.ic_phosphor_down
+            ToolbarKey.WORD_LEFT -> R.drawable.ic_phosphor_word_left
+            ToolbarKey.WORD_RIGHT -> R.drawable.ic_phosphor_word_right
+            ToolbarKey.PAGE_UP -> R.drawable.ic_phosphor_page_up
+            ToolbarKey.PAGE_DOWN -> R.drawable.ic_phosphor_page_down
+            ToolbarKey.FULL_LEFT -> R.drawable.ic_phosphor_full_left
+            ToolbarKey.FULL_RIGHT -> R.drawable.ic_phosphor_full_right
+            ToolbarKey.PAGE_START -> R.drawable.ic_phosphor_page_start
+            ToolbarKey.PAGE_END -> R.drawable.ic_phosphor_page_end
+            ToolbarKey.SPLIT -> R.drawable.ic_phosphor_split
+            ToolbarKey.BACKGROUND_GATHERING -> R.drawable.ic_phosphor_background_gathering
+        }
+
         // todo: incognito and force incognito should not be the same? or not the same as toolbar key?
         private val keyboardIconsHolo by lazy { hashMapOf(
             NAME_SHIFT_KEY to                   R.drawable.sym_keyboard_shift_holo,
@@ -119,45 +156,11 @@ class KeyboardIconsSet private constructor() {
             NAME_STOP_ONEHANDED_KEY to          R.drawable.sym_keyboard_stop_onehanded_holo,
             NAME_SWITCH_ONEHANDED_KEY to        R.drawable.ic_arrow_left,
             NAME_RESIZE_ONEHANDED_KEY to        R.drawable.ic_arrow_horizontal,
-            NAME_TOOLBAR_KEY to                 R.drawable.ic_arrow_right,
-            NAME_BIN to                         R.drawable.ic_bin,
+            NAME_TOOLBAR_KEY to                 R.drawable.ic_phosphor_toolbar_expand,
+            NAME_BIN to                         R.drawable.ic_phosphor_bin,
         ).apply {
             ToolbarKey.entries.forEach {
-                put(it.name.lowercase(Locale.US), when (it) {
-                    ToolbarKey.VOICE -> R.drawable.sym_keyboard_voice_holo
-                    ToolbarKey.CLIPBOARD -> R.drawable.sym_keyboard_clipboard_holo
-                    ToolbarKey.NUMPAD -> R.drawable.sym_keyboard_numpad_key_holo
-                    ToolbarKey.DPAD -> R.drawable.ic_dpad
-                    ToolbarKey.UNDO -> R.drawable.ic_undo
-                    ToolbarKey.REDO -> R.drawable.ic_redo
-                    ToolbarKey.SETTINGS -> R.drawable.sym_keyboard_settings_holo
-                    ToolbarKey.SELECT_ALL -> R.drawable.ic_select_all
-                    ToolbarKey.SELECT_WORD -> R.drawable.ic_select
-                    ToolbarKey.COPY -> R.drawable.sym_keyboard_copy
-                    ToolbarKey.CUT -> R.drawable.sym_keyboard_cut
-                    ToolbarKey.PASTE -> R.drawable.sym_keyboard_paste
-                    ToolbarKey.ONE_HANDED -> R.drawable.sym_keyboard_start_onehanded_holo
-                    ToolbarKey.FLOATING -> R.drawable.ic_drag_indicator
-                    ToolbarKey.INCOGNITO -> R.drawable.sym_keyboard_incognito_holo
-                    ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect
-                    ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.sym_keyboard_clear_clipboard_holo
-                    ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_close
-                    ToolbarKey.EMOJI -> R.drawable.sym_keyboard_smiley_holo
-                    ToolbarKey.LEFT -> R.drawable.ic_dpad_left
-                    ToolbarKey.RIGHT -> R.drawable.ic_dpad_right
-                    ToolbarKey.UP -> R.drawable.ic_dpad_up
-                    ToolbarKey.DOWN -> R.drawable.ic_dpad_down
-                    ToolbarKey.WORD_LEFT -> R.drawable.ic_word_left
-                    ToolbarKey.WORD_RIGHT -> R.drawable.ic_word_right
-                    ToolbarKey.PAGE_UP -> R.drawable.ic_page_up
-                    ToolbarKey.PAGE_DOWN -> R.drawable.ic_page_down
-                    ToolbarKey.FULL_LEFT -> R.drawable.ic_to_start
-                    ToolbarKey.FULL_RIGHT -> R.drawable.ic_to_end
-                    ToolbarKey.PAGE_START -> R.drawable.ic_page_start
-                    ToolbarKey.PAGE_END -> R.drawable.ic_page_end
-                    ToolbarKey.SPLIT -> R.drawable.ic_ime_switcher
-                    ToolbarKey.BACKGROUND_GATHERING -> R.drawable.ic_settings_gesture
-                })
+                put(it.name.lowercase(Locale.US), phosphorToolbarIcon(it))
             }
         } }
 
@@ -183,45 +186,11 @@ class KeyboardIconsSet private constructor() {
             NAME_STOP_ONEHANDED_KEY to          R.drawable.sym_keyboard_stop_onehanded_lxx,
             NAME_SWITCH_ONEHANDED_KEY to        R.drawable.ic_arrow_left,
             NAME_RESIZE_ONEHANDED_KEY to        R.drawable.ic_arrow_horizontal,
-            NAME_TOOLBAR_KEY to                 R.drawable.ic_arrow_right,
-            NAME_BIN to                         R.drawable.ic_bin,
+            NAME_TOOLBAR_KEY to                 R.drawable.ic_phosphor_toolbar_expand,
+            NAME_BIN to                         R.drawable.ic_phosphor_bin,
         ).apply {
             ToolbarKey.entries.forEach {
-                put(it.name.lowercase(Locale.US), when (it) {
-                    ToolbarKey.VOICE -> R.drawable.sym_keyboard_voice_lxx
-                    ToolbarKey.CLIPBOARD -> R.drawable.sym_keyboard_clipboard_lxx
-                    ToolbarKey.NUMPAD -> R.drawable.sym_keyboard_numpad_key_lxx
-                    ToolbarKey.DPAD -> R.drawable.ic_dpad
-                    ToolbarKey.UNDO -> R.drawable.ic_undo
-                    ToolbarKey.REDO -> R.drawable.ic_redo
-                    ToolbarKey.SETTINGS -> R.drawable.sym_keyboard_settings_lxx
-                    ToolbarKey.SELECT_ALL -> R.drawable.ic_select_all
-                    ToolbarKey.SELECT_WORD -> R.drawable.ic_select
-                    ToolbarKey.COPY -> R.drawable.sym_keyboard_copy
-                    ToolbarKey.CUT -> R.drawable.sym_keyboard_cut
-                    ToolbarKey.PASTE -> R.drawable.sym_keyboard_paste
-                    ToolbarKey.ONE_HANDED -> R.drawable.sym_keyboard_start_onehanded_lxx
-                    ToolbarKey.FLOATING -> R.drawable.ic_drag_indicator
-                    ToolbarKey.INCOGNITO -> R.drawable.sym_keyboard_incognito_lxx
-                    ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect
-                    ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.sym_keyboard_clear_clipboard_lxx
-                    ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_close
-                    ToolbarKey.EMOJI -> R.drawable.sym_keyboard_smiley_lxx
-                    ToolbarKey.LEFT -> R.drawable.ic_dpad_left
-                    ToolbarKey.RIGHT -> R.drawable.ic_dpad_right
-                    ToolbarKey.UP -> R.drawable.ic_dpad_up
-                    ToolbarKey.DOWN -> R.drawable.ic_dpad_down
-                    ToolbarKey.WORD_LEFT -> R.drawable.ic_word_left
-                    ToolbarKey.WORD_RIGHT -> R.drawable.ic_word_right
-                    ToolbarKey.PAGE_UP -> R.drawable.ic_page_up
-                    ToolbarKey.PAGE_DOWN -> R.drawable.ic_page_down
-                    ToolbarKey.FULL_LEFT -> R.drawable.ic_to_start
-                    ToolbarKey.FULL_RIGHT -> R.drawable.ic_to_end
-                    ToolbarKey.PAGE_START -> R.drawable.ic_page_start
-                    ToolbarKey.PAGE_END -> R.drawable.ic_page_end
-                    ToolbarKey.SPLIT -> R.drawable.ic_ime_switcher
-                    ToolbarKey.BACKGROUND_GATHERING -> R.drawable.ic_settings_gesture
-                })
+                put(it.name.lowercase(Locale.US), phosphorToolbarIcon(it))
             }
         } }
 
@@ -247,45 +216,11 @@ class KeyboardIconsSet private constructor() {
             NAME_STOP_ONEHANDED_KEY to          R.drawable.sym_keyboard_stop_onehanded_rounded,
             NAME_SWITCH_ONEHANDED_KEY to        R.drawable.ic_arrow_left_rounded,
             NAME_RESIZE_ONEHANDED_KEY to        R.drawable.ic_arrow_horizontal_rounded,
-            NAME_TOOLBAR_KEY to                 R.drawable.ic_arrow_right_rounded,
-            NAME_BIN to                         R.drawable.ic_bin_rounded,
+            NAME_TOOLBAR_KEY to                 R.drawable.ic_phosphor_toolbar_expand,
+            NAME_BIN to                         R.drawable.ic_phosphor_bin,
         ).apply {
             ToolbarKey.entries.forEach {
-                put(it.name.lowercase(Locale.US), when (it) {
-                    ToolbarKey.VOICE -> R.drawable.sym_keyboard_voice_rounded
-                    ToolbarKey.CLIPBOARD -> R.drawable.sym_keyboard_clipboard_rounded
-                    ToolbarKey.NUMPAD -> R.drawable.sym_keyboard_numpad_key_lxx
-                    ToolbarKey.DPAD -> R.drawable.ic_dpad_rounded
-                    ToolbarKey.UNDO -> R.drawable.ic_undo_rounded
-                    ToolbarKey.REDO -> R.drawable.ic_redo_rounded
-                    ToolbarKey.SETTINGS -> R.drawable.sym_keyboard_settings_rounded
-                    ToolbarKey.SELECT_ALL -> R.drawable.ic_select_all_rounded
-                    ToolbarKey.SELECT_WORD -> R.drawable.ic_select_rounded
-                    ToolbarKey.COPY -> R.drawable.sym_keyboard_copy_rounded
-                    ToolbarKey.CUT -> R.drawable.sym_keyboard_cut_rounded
-                    ToolbarKey.PASTE -> R.drawable.sym_keyboard_paste_rounded
-                    ToolbarKey.ONE_HANDED -> R.drawable.sym_keyboard_start_onehanded_rounded
-                    ToolbarKey.FLOATING -> R.drawable.ic_drag_indicator
-                    ToolbarKey.INCOGNITO -> R.drawable.sym_keyboard_incognito_lxx
-                    ToolbarKey.AUTOCORRECT -> R.drawable.ic_autocorrect_rounded
-                    ToolbarKey.CLEAR_CLIPBOARD -> R.drawable.sym_keyboard_clear_clipboard_rounded
-                    ToolbarKey.CLOSE_HISTORY -> R.drawable.ic_close_rounded
-                    ToolbarKey.EMOJI -> R.drawable.sym_keyboard_smiley_rounded
-                    ToolbarKey.LEFT -> R.drawable.ic_dpad_left_rounded
-                    ToolbarKey.RIGHT -> R.drawable.ic_dpad_right_rounded
-                    ToolbarKey.UP -> R.drawable.ic_dpad_up_rounded
-                    ToolbarKey.DOWN -> R.drawable.ic_dpad_down_rounded
-                    ToolbarKey.WORD_LEFT -> R.drawable.ic_word_left_rounded
-                    ToolbarKey.WORD_RIGHT -> R.drawable.ic_word_right_rounded
-                    ToolbarKey.PAGE_UP -> R.drawable.ic_page_up_rounded
-                    ToolbarKey.PAGE_DOWN -> R.drawable.ic_page_down_rounded
-                    ToolbarKey.FULL_LEFT -> R.drawable.ic_to_start_rounded
-                    ToolbarKey.FULL_RIGHT -> R.drawable.ic_to_end_rounded
-                    ToolbarKey.PAGE_START -> R.drawable.ic_page_start_rounded
-                    ToolbarKey.PAGE_END -> R.drawable.ic_page_end_rounded
-                    ToolbarKey.SPLIT -> R.drawable.ic_ime_switcher
-                    ToolbarKey.BACKGROUND_GATHERING -> R.drawable.ic_settings_gesture
-                })
+                put(it.name.lowercase(Locale.US), phosphorToolbarIcon(it))
             }
         } }
 

@@ -1,13 +1,14 @@
 <!--
-    icon from pictogrammers.com
-    SPDX-License-Identifier: Apache-2.0
+    Phosphor Icons (https://phosphoricons.com), regular weight
+    SPDX-FileCopyrightText: 2023 Phosphor Icons
+    SPDX-License-Identifier: MIT
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:height="24dp"
     android:width="24dp"
-    android:viewportWidth="24"
-    android:viewportHeight="24">
+    android:height="24dp"
+    android:viewportWidth="256"
+    android:viewportHeight="256">
     <path
         android:fillColor="@color/foreground_weak"
-        android:pathData="M20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18,2.9 17.35,2.9 16.96,3.29L15.12,5.12L18.87,8.87M3,17.25V21H6.75L17.81,9.93L14.06,6.18L3,17.25Z" />
+        android:pathData="M227.31,73.37,182.63,28.68a16,16,0,0,0-22.63,0L36.69,152A15.86,15.86,0,0,0,32,163.31V208a16,16,0,0,0,16,16H92.69A15.86,15.86,0,0,0,104,219.31L227.31,96a16,16,0,0,0,0-22.63ZM92.69,208H48V163.31l88-88L180.69,120ZM192,108.68,147.31,64l24-24L216,84.68Z"/>
 </vector>

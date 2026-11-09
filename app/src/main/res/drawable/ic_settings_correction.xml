@@ -1,13 +1,14 @@
 <!--
-    SPDX-FileCopyrightText: Material Design Authors / Google LLC
-    SPDX-License-Identifier: Apache-2.0
+    Phosphor Icons (https://phosphoricons.com), regular weight
+    SPDX-FileCopyrightText: 2023 Phosphor Icons
+    SPDX-License-Identifier: MIT
 -->
 <vector xmlns:android="http://schemas.android.com/apk/res/android"
     android:width="32dp"
     android:height="32dp"
-    android:viewportWidth="960"
-    android:viewportHeight="960">
+    android:viewportWidth="256"
+    android:viewportHeight="256">
     <path
         android:fillColor="@color/foreground"
-        android:pathData="M564,880L394,710L450,654L564,768L790,542L846,598L564,880ZM120,640L314,120L408,120L602,640L510,640L464,508L254,508L208,640L120,640ZM282,432L438,432L362,216L358,216L282,432Z"/>
+        android:pathData="M173.66,98.34a8,8,0,0,1,0,11.32l-56,56a8,8,0,0,1-11.32,0l-24-24a8,8,0,0,1,11.32-11.32L112,148.69l50.34-50.35A8,8,0,0,1,173.66,98.34ZM232,128A104,104,0,1,1,128,24,104.11,104.11,0,0,1,232,128Zm-16,0a88,88,0,1,0-88,88A88.1,88.1,0,0,0,216,128Z"/>
 </vector>
