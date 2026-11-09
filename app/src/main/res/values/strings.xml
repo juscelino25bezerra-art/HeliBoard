@@ -1325,4 +1325,18 @@ New dictionary:
     <string name="gesture_data_swipe_o_scope">Tool for visualizing gesture data: &lt;a href=%s&gt;Swipe-O-Scope&lt;/a&gt;</string>
 
     <!-- new strings should go above the section for gesture data gathering -->
+    <string name="translate" tools:keep="@string/translate">Translate</string>
+    <!-- Translator mode (uses the Offline Translator app) -->
+    <string name="translator_detect_language">Detect language</string>
+    <string name="translator_hint">Type in %s</string>
+    <string name="translator_hint_auto">Type to translate</string>
+    <string name="translator_swap">Swap languages</string>
+    <string name="translator_close">Close translator</string>
+    <string name="translator_translating">Translating…</string>
+    <string name="translator_not_installed">Install the Offline Translator app to translate. Tap to open F-Droid.</string>
+    <string name="translator_not_connected">Could not connect to Offline Translator</string>
+    <string name="translator_detect_failed">Could not detect the language</string>
+    <string name="translator_language_missing">Download %s in Offline Translator</string>
+    <string name="translator_language_missing_generic">Download the language in Offline Translator</string>
+    <string name="translator_error">Translation failed</string>
 </resources>

@@ -558,4 +558,18 @@
     <string name="gesture_data_add_key">Adicionar tecla à barra de ferramentas</string>
     <string name="gesture_data_no_known_dict">A coleta em segundo plano só registra palavras provenientes de dicionários integrados ou disponíveis no &lt;a href=%s&gt;repositório de dicionários&lt;/a&gt;. No momento, você não tem nenhum dicionário desse tipo ativado.</string>
     <string name="gesture_data_swipe_o_scope">Ferramenta para visualizar dados de gestos: &lt;a href=%s&gt;Swipe-O-Scope&lt;/a&gt;</string>
+    <string name="translate" tools:keep="@string/translate">Traduzir</string>
+    <!-- Modo tradutor (usa o app Offline Translator) -->
+    <string name="translator_detect_language">Detectar idioma</string>
+    <string name="translator_hint">Digite em %s</string>
+    <string name="translator_hint_auto">Digite para traduzir</string>
+    <string name="translator_swap">Inverter idiomas</string>
+    <string name="translator_close">Fechar tradutor</string>
+    <string name="translator_translating">Traduzindo…</string>
+    <string name="translator_not_installed">Instale o app Offline Translator para traduzir. Toque para abrir o F-Droid.</string>
+    <string name="translator_not_connected">Não foi possível conectar ao Offline Translator</string>
+    <string name="translator_detect_failed">Não foi possível detectar o idioma</string>
+    <string name="translator_language_missing">Baixe %s no Offline Translator</string>
+    <string name="translator_language_missing_generic">Baixe o idioma no Offline Translator</string>
+    <string name="translator_error">Falha na tradução</string>
 </resources>

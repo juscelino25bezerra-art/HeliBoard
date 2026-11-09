@@ -22,6 +22,9 @@ import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.CompletionInfo;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.ExtractedText;
+import android.view.inputmethod.ExtractedTextRequest;
+import android.view.inputmethod.InputConnection;
 import android.view.inputmethod.InlineSuggestion;
 import android.view.inputmethod.InlineSuggestionsRequest;
 import android.view.inputmethod.InlineSuggestionsResponse;
@@ -52,6 +55,7 @@ import helium314.keyboard.latin.define.DebugFlags;
 import helium314.keyboard.latin.dictionary.history.UserHistoryDictUtils;
 import helium314.keyboard.latin.inputlogic.InputLogic;
 import helium314.keyboard.latin.settings.Settings;
+import helium314.keyboard.latin.translator.TranslatorController;
 import helium314.keyboard.latin.settings.SettingsSubtype;
 import helium314.keyboard.latin.settings.SettingsValues;
 import helium314.keyboard.latin.suggestions.PunctuationSuggestions;
@@ -115,6 +119,8 @@ public class LatinIME extends InputMethodService implements
             DictionaryFacilitatorProvider.getDictionaryFacilitator(false);
     private final DictionaryFacilitator mOriginalDictionaryFacilitator = mDictionaryFacilitator;
     final InputLogic mInputLogic = new InputLogic(this, this, mDictionaryFacilitator);
+    // modo tradutor (Offline Translator): campo interno + barra de idiomas acima das sugestões
+    final TranslatorController mTranslator = new TranslatorController(this);
 
     // TODO: Move these {@link View}s to {@link KeyboardSwitcher}.
     private SuggestionStripView mSuggestionStripView;
@@ -615,6 +621,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onDestroy() {
+        mTranslator.release();
         mClipboardHistoryManager.onDestroy();
         mDictionaryFacilitator.closeDictionaries();
         mSettings.onDestroy();
@@ -678,6 +685,7 @@ public class LatinIME extends InputMethodService implements
         // updateSoftInputWindowLayoutParameters needs to happen after setInputView
         mKeyboardSwitcher.updateSoftInputWindowLayoutParameters();
         updateSuggestionStripView(view);
+        mTranslator.attach(view.findViewById(R.id.main_keyboard_frame));
     }
 
     public void updateSuggestionStripView(View view) {
@@ -708,6 +716,7 @@ public class LatinIME extends InputMethodService implements
 
     @Override
     public void onFinishInputView(final boolean finishingInput) {
+        mTranslator.onFinishInputView();
         StatsUtils.onFinishInputView();
         mHandler.onFinishInputView(finishingInput);
         mStatsUtilsManager.onFinishInputView();
@@ -965,6 +974,8 @@ public class LatinIME extends InputMethodService implements
     public void onUpdateSelection(int oldSelStart, int oldSelEnd, int newSelStart, int newSelEnd,
                                   int composingSpanStart, int composingSpanEnd) {
         super.onUpdateSelection(oldSelStart, oldSelEnd, newSelStart, newSelEnd, composingSpanStart, composingSpanEnd);
+        // no modo tradutor quem muda o campo do app é a própria tradução; a digitação está no campo interno
+        if (TranslatorController.isActive()) return;
         if (DebugFlags.DEBUG_ENABLED) {
             Log.i(TAG, "onUpdateSelection: oss=" + oldSelStart + ", ose=" + oldSelEnd
                     + ", nss=" + newSelStart + ", nse=" + newSelEnd
@@ -1244,6 +1255,9 @@ public class LatinIME extends InputMethodService implements
     // This method is public for testability of LatinIME, but also in the future it should
     // completely replace #onCodeInput.
     public void onEvent(@NonNull final Event event) {
+        if (event.getCodePoint() == Constants.CODE_ENTER && TranslatorController.isActive() && mTranslator.onEnter()) {
+            return;
+        }
         if (KeyCode.VOICE_INPUT == event.getKeyCode()) {
             mRichImm.switchToShortcutIme(this);
         }
@@ -1542,6 +1556,50 @@ public class LatinIME extends InputMethodService implements
         Log.d(EmojiSearchActivityKt.TAG, "before activity launch");
         startActivity(new Intent().setClass(this, EmojiSearchActivity.class)
                           .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_MULTIPLE_TASK));
+    }
+
+    // ---------- modo tradutor ----------
+
+    /** Enquanto o modo tradutor está ligado, a digitação vai para o campo interno do tradutor. */
+    @Override
+    public InputConnection getCurrentInputConnection() {
+        final InputConnection translatorConnection = mTranslator.inputConnection();
+        return translatorConnection != null ? translatorConnection : super.getCurrentInputConnection();
+    }
+
+    /** O campo do app em que o usuário está escrevendo, mesmo com o modo tradutor ligado. */
+    @Nullable
+    public InputConnection getAppInputConnection() {
+        return super.getCurrentInputConnection();
+    }
+
+    public void toggleTranslator() {
+        mTranslator.toggle();
+    }
+
+    /**
+     * Troca o campo em que a digitação acontece (app ou tradutor): fecha a palavra em andamento,
+     * aplica a troca e recomeça a lógica de entrada no campo novo.
+     */
+    public void switchInputTarget(@NonNull final Runnable change) {
+        mInputLogic.finishInput();
+        change.run();
+        mInputLogic.startInput(mRichImm.getCombiningRulesExtraValueOfCurrentSubtype(), mSettings.getCurrent());
+        int selStart = 0;
+        int selEnd = 0;
+        final InputConnection ic = getCurrentInputConnection();
+        final ExtractedText extracted = ic == null ? null : ic.getExtractedText(new ExtractedTextRequest(), 0);
+        if (extracted != null && extracted.selectionStart >= 0) {
+            selStart = extracted.startOffset + extracted.selectionStart;
+            selEnd = extracted.startOffset + extracted.selectionEnd;
+        }
+        mInputLogic.mConnection.resetCachesUponCursorMoveAndReturnSuccess(selStart, selEnd, false);
+        setNeutralSuggestionStrip();
+        mKeyboardSwitcher.updateShiftState(getCurrentAutoCapsState(), getCurrentRecapitalizeState());
+    }
+
+    public void updateToolbarKeysActivatedState() {
+        if (mSuggestionStripView != null) mSuggestionStripView.refreshToolbarActivatedState();
     }
 
     public boolean isEmojiSearch() {

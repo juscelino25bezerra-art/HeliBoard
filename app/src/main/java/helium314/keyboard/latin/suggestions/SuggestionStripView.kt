@@ -54,6 +54,7 @@ import helium314.keyboard.latin.utils.prefs
 import helium314.keyboard.latin.utils.removeFirst
 import helium314.keyboard.latin.utils.removePinnedKey
 import helium314.keyboard.latin.utils.setToolbarButtonsActivatedStateOnPrefChange
+import helium314.keyboard.latin.utils.refreshToolbarButtonsActivatedState
 import java.util.concurrent.atomic.AtomicBoolean
 import kotlin.math.abs
 import kotlin.math.min
@@ -285,6 +286,11 @@ class SuggestionStripView(context: Context, attrs: AttributeSet?, defStyle: Int)
     }
 
     // overrides: necessarily public, but not used from outside
+
+    fun refreshToolbarActivatedState() {
+        refreshToolbarButtonsActivatedState(pinnedKeys)
+        refreshToolbarButtonsActivatedState(toolbar)
+    }
 
     override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
         setToolbarButtonsActivatedStateOnPrefChange(pinnedKeys, key)
