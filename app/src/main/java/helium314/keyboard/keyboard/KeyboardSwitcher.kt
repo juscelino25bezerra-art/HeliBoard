@@ -44,6 +44,7 @@ import helium314.keyboard.latin.settings.SettingsValues
 import helium314.keyboard.latin.settings.setFloatingKeyboardEnabled
 import helium314.keyboard.latin.utils.CapsModeUtils
 import helium314.keyboard.latin.utils.FloatingKeyboardUtils
+import helium314.keyboard.latin.utils.NavBarBackground
 import helium314.keyboard.latin.utils.FoldableUtils.isFolded
 import helium314.keyboard.latin.utils.LanguageOnSpacebarUtils
 import helium314.keyboard.latin.utils.Log
@@ -98,6 +99,7 @@ class KeyboardSwitcher private constructor() {
     val mainKeyboardView get() = inputView?.keyboardView
     val keyboard get() = mainKeyboardView?.keyboard
     val wrapperView get() = inputView?.wrapperView
+    val mainKeyboardFrameView: View? get() = inputView?.mainKeyboardFrame?.root
     val stripContainer get() = inputView?.stripContainer
     val emojiTabStrip get() = inputView?.emojiTabStrip
     val clipboardStrip get() = inputView?.mainKeyboardFrame?.stripContainer?.clipboardStrip
@@ -145,6 +147,7 @@ class KeyboardSwitcher private constructor() {
         inputView.keyboardView.setHardwareAcceleratedDrawingEnabled(isHardwareAcceleratedDrawingEnabled)
         inputView.keyboardView.setKeyboardActionListener(latinIME.mKeyboardActionListener)
         inputView.root.outlineProvider = insetsUpdater
+        NavBarBackground.setup(inputView.mainKeyboardFrame.root)
 
         prefs.registerOnSharedPreferenceChangeListener(inputView.suggestionStripView)
         PointerTracker.switchTo(inputView.keyboardView)
@@ -225,7 +228,8 @@ class KeyboardSwitcher private constructor() {
         }
         val stripContainer = inputView.stripContainer
         val stripHeight = if (stripContainer.isShown) stripContainer.height else 0
-        var visibleTopY = inputHeight - (if (visibleKeyboardView.isShown) visibleKeyboardView.height else 0) - stripHeight
+        val navBarPadding = inputView.mainKeyboardFrame.root.paddingBottom // background drawn behind the navigation bar
+        var visibleTopY = inputHeight - (if (visibleKeyboardView.isShown) visibleKeyboardView.height else 0) - stripHeight - navBarPadding
         if (Settings.getValues().mIsFloatingKeyboard)
             visibleTopY = themeContext.resources.displayMetrics.heightPixels
 

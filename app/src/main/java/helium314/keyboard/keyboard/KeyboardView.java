@@ -7,6 +7,7 @@
 package helium314.keyboard.keyboard;
 
 import static helium314.keyboard.keyboard.KeyboardTheme.STYLE_ROUNDED;
+import static helium314.keyboard.keyboard.KeyboardTheme.STYLE_IOS;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -459,9 +460,13 @@ public class KeyboardView extends View {
         Drawable hintIcon = (keyboard == null || !mShowsHints || hintLabel != null) ? null
                         : key.getHintIcon(keyboard.mIconsSet, params.mAnimAlpha);
         if (hintLabel != null && mShowsHints) {
-            paint.setTextSize(key.selectHintTextSize(params) * mHintFontSizeMultiplier);
+            // iOS style: smaller, regular weight and softer hints, so they don't compete with the letter
+            final boolean isIosStyle = mColors.getThemeStyle().equals(STYLE_IOS);
+            paint.setTextSize(key.selectHintTextSize(params) * mHintFontSizeMultiplier * (isIosStyle ? 0.8f : 1f));
             paint.setColor(key.selectHintTextColor(params));
-            paint.setTypeface(KeyboardTypeface.resolve(hintLabel, Typeface.DEFAULT_BOLD));
+            if (isIosStyle)
+                paint.setAlpha(paint.getAlpha() * 3 / 4);
+            paint.setTypeface(KeyboardTypeface.resolve(hintLabel, isIosStyle ? Typeface.DEFAULT : Typeface.DEFAULT_BOLD));
             blendAlpha(paint, params.mAnimAlpha);
             final float labelCharHeight = TypefaceUtils.getReferenceCharHeight(paint);
             final float labelCharWidth = TypefaceUtils.getReferenceCharWidth(paint);

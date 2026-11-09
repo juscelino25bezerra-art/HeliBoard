@@ -60,6 +60,7 @@ import helium314.keyboard.latin.suggestions.SuggestedWordInfo;
 import helium314.keyboard.latin.suggestions.SuggestionStripView;
 import helium314.keyboard.latin.suggestions.SuggestionStripViewAccessor;
 import helium314.keyboard.latin.touchinputconsumer.GestureConsumer;
+import helium314.keyboard.latin.utils.NavBarBackground;
 import helium314.keyboard.latin.utils.ColorUtilKt;
 import helium314.keyboard.latin.utils.GestureDataGatheringKt;
 import helium314.keyboard.latin.utils.GestureDataGatheringSettings;
@@ -1554,6 +1555,8 @@ public class LatinIME extends InputMethodService implements
     // slightly modified from Simple Keyboard: https://github.com/rkkr/simple-keyboard/blob/master/app/src/main/java/rkr/simplekeyboard/inputmethod/latin/LatinIME.java
     // todo: see also the comment for clearNavigationBarColor
     private void setNavigationBarColor() {
+        // API 35+: setNavigationBarColor has no effect, the keyboard draws the background itself
+        NavBarBackground.INSTANCE.apply(getWindow().getWindow(), mKeyboardSwitcher.getMainKeyboardFrameView());
         final SettingsValues settingsValues = mSettings.getCurrent();
         if (!settingsValues.mCustomNavBarColor)
             return;
