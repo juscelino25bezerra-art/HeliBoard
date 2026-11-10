@@ -12,7 +12,6 @@ import android.os.Build
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import androidx.core.view.WindowCompat
 import helium314.keyboard.latin.common.ColorType
 import helium314.keyboard.latin.settings.Settings
 import java.lang.ref.WeakReference
@@ -30,6 +29,7 @@ object NavBarBackground {
     private var color = Color.TRANSPARENT
     private var inputRootRef = WeakReference<View>(null)
     private var listenedDecorRef = WeakReference<View>(null)
+    private var navFrameRef = WeakReference<View>(null)
 
     /** Call whenever the keyboard is shown, so changed settings (colors, floating mode, the option itself) apply. */
     fun apply(window: Window?, inputRoot: View?) {
@@ -38,19 +38,25 @@ object NavBarBackground {
         active = values.mCustomNavBarColor && !values.mIsFloatingKeyboard
         color = values.mColors.get(ColorType.NAVIGATION_BAR)
         inputRootRef = WeakReference(inputRoot)
-        if (active) // dark navigation buttons on bright keyboard colors (the old SYSTEM_UI_FLAG may be ignored)
-            WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars = isBrightColor(color)
         val decor = window.decorView
         if (listenedDecorRef.get() !== decor) {
             listenedDecorRef = WeakReference(decor)
-            // the system may reset the frame background or change paddings, so re-apply after layout changes
-            decor.addOnLayoutChangeListener { _, _, _, _, _, _, _, _, _ -> paint(decor, inputRootRef.get()) }
+            // the system resets the navigation bar frame background on its own (e.g. when the navigation bar
+            // appearance changes, without any layout change), so check before every frame; this is cheap,
+            // views are only touched when something differs
+            decor.viewTreeObserver.addOnPreDrawListener {
+                paint(decor, inputRootRef.get())
+                true
+            }
         }
         decor.post { paint(decor, inputRootRef.get()) }
     }
 
     private fun paint(decor: View, inputRoot: View?) {
-        findNavigationBarFrame(decor)?.let { frame ->
+        val cached = navFrameRef.get()
+        val navFrame = if (cached != null && cached.isAttachedToWindow) cached
+            else findNavigationBarFrame(decor)?.also { navFrameRef = WeakReference(it) }
+        navFrame?.let { frame ->
             val wanted = if (active) color else Color.TRANSPARENT
             if ((frame.background as? ColorDrawable)?.color != wanted)
                 frame.setBackgroundColor(wanted)
